@@ -23,6 +23,9 @@ from webauthn.helpers.structs import (
     UserVerificationRequirement,
 )
 
+from pydantic import BaseModel
+
+
 # secrets.token_hex()
 secret_key = "9c580e0641762c32eab407257d924c25d5c8dd44a67d9efb4403038ae783c37c"
 
@@ -43,6 +46,11 @@ app = FastAPI(middleware=middleware)
 async def index():
     with open("src/index.html") as fh:
         # language=HTML
+        return fh.read()
+
+@app.get("/lostdevice", response_class=HTMLResponse)
+async def lostdevice():
+    with open("src/lostdevice.html") as fh:
         return fh.read()
 
 
@@ -136,6 +144,7 @@ async def register_post(request: Request, user_id: str, credential: CustomRegist
         "sign_count": registration.sign_count,
         "credential_id": registration.credential_id,
         "challenge": expected_challenge,
+        "back_up_code": "1234",
     }
 
     with open("src/pickle_file", "wb") as fh:
@@ -193,3 +202,19 @@ async def auth_post(request: Request, user_id: str, credential: CustomAuthentica
         credential_current_sign_count=user_creds["sign_count"],
     )
     user_creds["sign_count"] = auth.new_sign_count
+
+class ValidationResponse(BaseModel):
+    result: bool
+
+@app.get("/lostdevice/{user_id:str}/", response_model = ValidationResponse)
+async def validate_backup_codes(request: Request, user_id:str, backup_codes: str):
+    try:
+        user_creds = auth_database[user_id]
+    except:
+        raise HTTPException(status_code=404, detail="user not found")
+    
+    response = ValidationResponse(
+        result = str(user_creds["back_up_code"]) == backup_codes
+    )
+
+    return response

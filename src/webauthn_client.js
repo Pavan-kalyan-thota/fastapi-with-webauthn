@@ -84,3 +84,24 @@ async function authenticator() {
   await post('auth', 'username', creds);
   log('authentication successful');
 }
+
+async function lost_device(){
+  console.log("redirecting");
+  window.location.replace("http://localhost:8000/lostdevice");
+}
+
+async function register_new(){
+  path = "lostdevice";
+  const user_id = document.getElementById("username").value;
+  const back_up_codes = document.getElementById("back-up-code").value;
+  validation_result = await fetch(`/${path}/${user_id}?backup_codes=${back_up_codes}`);
+
+  result = await validation_result.json();
+
+  console.log(result);
+  console.log(result["result"])
+
+  if(result["result"]){
+    register();
+  }
+}

@@ -22,12 +22,15 @@
             <div class="d-flex justify-content-center h-100">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Webauthn Register Or Authenticate</h3>
+                        <h3>Lost Device</h3>
                     </div>
                     <div class="card-body">
                         <form>
                             <div class="input-group input-group-lg mb-3">
                                 <input type="text" class="form-control" id="username" placeholder="username">
+                            </div>
+                            <div class="input-group input-group-lg mb-3">
+                                <input type="text" class="form-control" id="back-up-code" placeholder="code">
                             </div>
                             <div class="input-group input-group-lg mb-3">
                                 <div class="input-group-prepend">
@@ -50,9 +53,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <button type="button" onclick="authenticator()" class="btn float-right login_btn" data-toggle="popover" title="Popover title" id="authenticate">Authenticate</button>
-                                <button type="button" onclick="lost_device()" value="lostdevice" class="btn float-left login_btn" data-toggle="popover" title="Popover title">LostDevice</button>
-                                <button type="button" onclick="register()" value="Register" class="btn float-left login_btn" data-toggle="popover" title="Popover title">Register</button>
+                                <button type="button" onclick="register_new()" value="Register" class="btn float-left login_btn" data-toggle="popover" title="Popover title">Register New Device</button>
                             </div>
                         </form>
                     </div>

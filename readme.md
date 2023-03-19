@@ -15,7 +15,7 @@ pip install -r requirements.txt
 3. If you want to run tests please install below requirements as well.
 
 ```bash
-pip install -r requirements-dev.txt
+pip install -r requirement-dev.txt
 ```
 
 # How to run the code in local machine
@@ -23,7 +23,7 @@ pip install -r requirements-dev.txt
 1. You can just run below command in your terminal
 
 ```bash
-uvicorn src.main:app
+python3 -m uvicorn src.main:app --reload
 ```
 
 2. Navigate to link below - http://localhost:8000/
